@@ -117,7 +117,7 @@ function openEdition(edition) {
   dialogSummary.textContent = edition.information;
   dialogDate.textContent = `Posted ${formatDate(edition.date)}`;
   dialogDownload.href = edition.file;
-  dialogDownload.textContent = `Download ${edition.file}`;
+  dialogDownload.textContent = "Download";
 
   dialogArticles.innerHTML = "";
   (edition.articles || []).forEach((article) => {
