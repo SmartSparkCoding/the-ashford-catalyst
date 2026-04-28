@@ -28,6 +28,22 @@ function compareMemberPriority(a, b) {
   return String(a.name || "").localeCompare(String(b.name || ""));
 }
 
+function getMemberTitleFromPriority(priority) {
+  if (priority === 1) {
+    return "Editor";
+  }
+
+  if (priority === 2) {
+    return "Journalist";
+  }
+
+  if (priority === 3) {
+    return "Guest";
+  }
+
+  return "Guest";
+}
+
 function renderMembers() {
   if (!teamGrid) {
     return;
@@ -51,6 +67,7 @@ function renderMembers() {
 
     const card = document.createElement("article");
     card.className = "team-card";
+    card.classList.add(`role-tier-${Math.min(priority, 3)}`);
 
     if (priority === 1) {
       card.classList.add("lead-card");
@@ -61,7 +78,7 @@ function renderMembers() {
 
     const role = document.createElement("p");
     role.className = "member-role";
-    role.textContent = member.role || "Editor";
+    role.textContent = getMemberTitleFromPriority(priority);
 
     const description = document.createElement("p");
     description.textContent = member.description || "No description yet.";
