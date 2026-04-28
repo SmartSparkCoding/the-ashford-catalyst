@@ -1,16 +1,20 @@
+/* @author: The Ashford Catalyst team (2025-2026)
+   Design system using CSS custom properties for maintainability.
+   Yellow accent color (#ffde00) chosen to represent energy and science. */
+
 :root {
   color-scheme: light;
   --bg: #ffffff;
   --accent: #ffde00;
-  --accent-strong: #dfbf00;
-  --ink: #121212;
-  --muted: rgba(18, 18, 18, 0.72);
-  --line: rgba(18, 18, 18, 0.1);
-  --shadow: 0 24px 60px rgba(18, 18, 18, 0.12);
-  --radius: 24px;
+  --accent-strong: #dfbf00;  /* Darker yellow for hover states */
+  --ink: #121212;            /* Almost black, easier on eyes than #000000 */
+  --muted: rgba(18, 18, 18, 0.72);  /* Secondary text color */
+  --line: rgba(18, 18, 18, 0.1);    /* Subtle borders */
+  --shadow: 0 24px 60px rgba(18, 18, 18, 0.12);  /* Depth effect */
+  --radius: 24px;            /* Material Design-ish corners */
 }
 
-* {
+/* Reset browser defaults */\n* {
   box-sizing: border-box;
 }
 
@@ -20,9 +24,8 @@ html {
 
 body {
   margin: 0;
-  font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
-  color: var(--ink);
-  background:
+  font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;  /* Trebuchet for personality */\n  color: var(--ink);
+  /* Gradient background creates subtle depth without being distracting */\n  background:
     radial-gradient(circle at top left, rgba(255, 222, 0, 0.22), transparent 28%),
     linear-gradient(180deg, #fffefa 0%, #ffffff 36%, #fff9cf 100%);
 }
@@ -31,22 +34,21 @@ a {
   color: inherit;
 }
 
-.shell {
+/* Container with max-width constraint for readability on large screens */\n.shell {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
 }
 
-.backdrop {
+/* Decorative grid background - creates visual interest without distraction */\n.backdrop {
   position: fixed;
   inset: 0;
   pointer-events: none;
   background-image: linear-gradient(rgba(18, 18, 18, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(18, 18, 18, 0.025) 1px, transparent 1px);
   background-size: 72px 72px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 80%);
-  opacity: 0.55;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 80%);  /* Fades out at bottom */\n  opacity: 0.55;
 }
 
-.hero {
+/* Main hero section with logo and headline */\n.hero {
   padding: 24px 0 56px;
 }
 
@@ -58,6 +60,7 @@ a {
   gap: 20px;
 }
 
+/* Top navigation bar - logo on left, action button on right */
 .topbar {
   grid-template-columns: 1fr auto;
   align-items: center;
@@ -70,6 +73,7 @@ a {
   gap: 14px;
 }
 
+/* Magazine logo / initials badge */
 .brand-mark {
   width: 56px;
   height: 56px;
@@ -95,6 +99,7 @@ a {
   font-weight: 700;
 }
 
+/* Secondary text styling - appears grayed out */
 .eyebrow,
 .hint,
 .panel-label,
@@ -102,6 +107,7 @@ a {
   color: var(--muted);
 }
 
+/* Navigation link with subtle hover effect */
 .nav-link {
   text-decoration: none;
   padding: 12px 16px;
@@ -111,6 +117,7 @@ a {
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
+/* Hover state - lifts element slightly for depth feedback */
 .nav-link:hover,
 .button:hover,
 .edition-card:hover,
@@ -124,6 +131,7 @@ a {
   align-items: stretch;
 }
 
+/* Glassmorphism card design - semi-transparent with blur effect */
 .hero-copy,
 .hero-panel,
 .team-card,
@@ -137,10 +145,12 @@ a {
   box-shadow: var(--shadow);
 }
 
+/* Hero copy section with responsive padding */
 .hero-copy {
   padding: clamp(28px, 5vw, 56px);
 }
 
+/* Main headings with tight line-height for impact */
 .hero-copy h2,
 .section-heading h2,
 .hero-panel h3,
@@ -152,6 +162,7 @@ a {
   line-height: 1.02;
 }
 
+/* Hero heading uses fluid typography (scales with viewport) */
 .hero-copy h2 {
   font-size: clamp(2.5rem, 6vw, 5.2rem);
   max-width: 11ch;
@@ -271,12 +282,14 @@ a {
   font-size: 1.25rem;
 }
 
+/* Search and filter toolbar */
 .archive-toolbar {
   display: grid;
   gap: 12px;
   margin-bottom: 18px;
 }
 
+/* Search box styling */
 .search-box {
   display: grid;
   gap: 10px;
@@ -292,12 +305,14 @@ a {
   gap: 12px;
 }
 
+/* Reset form element inheritance */
 input,
 textarea,
 button {
   font: inherit;
 }
 
+/* Form inputs with consistent styling */
 input,
 textarea {
   width: 100%;
@@ -312,6 +327,7 @@ button {
   cursor: pointer;
 }
 
+/* Yellow accent buttons for important actions */
 #searchButton,
 .submit,
 .dialog-close {
@@ -328,6 +344,7 @@ button {
   gap: 18px;
 }
 
+/* Edition card - clickable card for each magazine issue */
 .edition-card {
   display: grid;
   gap: 14px;
@@ -336,6 +353,7 @@ button {
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
+/* Outline focus state for accessibility */
 .edition-card:focus-visible {
   outline: 3px solid rgba(255, 222, 0, 0.7);
   outline-offset: 3px;
@@ -372,6 +390,7 @@ button {
   font-weight: 700;
 }
 
+/* Code display styling */
 .notes pre {
   margin: 0;
   padding: 18px;
@@ -381,6 +400,7 @@ button {
   overflow: auto;
 }
 
+/* Modal dialog for edition details */
 .dialog {
   border: none;
   background: transparent;
@@ -388,6 +408,7 @@ button {
   width: min(640px, calc(100% - 24px));
 }
 
+/* Backdrop blur for dialog modal */
 .dialog::backdrop {
   background: rgba(18, 18, 18, 0.4);
   backdrop-filter: blur(6px);
@@ -401,10 +422,12 @@ button {
   float: right;
 }
 
+/* Floating animation for accent elements */
 .floating {
   animation: float 6s ease-in-out infinite;
 }
 
+/* Fade-in and slide-up animation for content reveal */
 .reveal {
   animation: rise 800ms ease both;
 }
@@ -417,6 +440,7 @@ button {
   animation-delay: 320ms;
 }
 
+/* Content slides up and fades in on page load */
 @keyframes rise {
   from {
     opacity: 0;
@@ -428,6 +452,7 @@ button {
   }
 }
 
+/* Gentle vertical movement for accent elements */
 @keyframes float {
   0%,
   100% {
@@ -438,6 +463,7 @@ button {
   }
 }
 
+/* Responsive layout - stacks content on tablets */
 @media (max-width: 980px) {
   .hero-grid,
   .create-grid,
@@ -452,6 +478,7 @@ button {
   }
 }
 
+/* Mobile layout - single column for small screens */
 @media (max-width: 720px) {
   .topbar,
   .search-row {
