@@ -28,7 +28,6 @@
         <p class="lede">The Ashford Catalyst is a science magazine built from curiosity, teamwork and the things the Year 9 editors love most: Biology, Physics, Maths, Geography, computing, drama, music and aviation.</p>
         <div class="hero-actions">
           <a class="button primary" href="#archive">Explore the magazine</a>
-          <a class="button secondary" href="#create">Add an edition</a>
         </div>
       </div>
 
@@ -96,50 +95,6 @@
       </div>
 
       <div id="editionGrid" class="edition-grid"></div>
-    </section>
-
-    <section class="shell section reveal" id="create">
-      <div class="section-heading">
-        <p class="kicker">Editor tools</p>
-        <h2>Add a new edition from the page</h2>
-      </div>
-      <div class="create-grid">
-        <form id="editionForm" class="form-card">
-          <label>
-            Edition number
-            <input name="number" type="text" placeholder="5" required />
-          </label>
-          <label>
-            Information
-            <textarea name="information" rows="4" placeholder="A short summary of the issue" required></textarea>
-          </label>
-          <label>
-            Posting date
-            <input name="date" type="date" required />
-          </label>
-          <label>
-            File path in editions folder
-            <input name="file" type="text" placeholder="editions/issue-5.pdf" required />
-          </label>
-          <label>
-            Articles, one per line
-            <textarea name="articles" rows="5" placeholder="Why the sky is blue\nDesigning better planes\nThe science of swimming"></textarea>
-          </label>
-          <button class="button primary submit" type="submit">Add edition</button>
-        </form>
-
-        <aside class="form-card notes">
-          <h3>How to add editions in JavaScript</h3>
-          <p>Edit <a href="editions.js">editions.js</a> and add another item to the editions array, or call the helper function from the browser console.</p>
-          <pre><code>window.registerCatalystEdition({
-  number: "5",
-  information: "Special report on space and flight",
-  date: "2026-05-12",
-  file: "editions/issue-5.pdf",
-  articles: ["Space science", "Flight tests"]
-});</code></pre>
-        </aside>
-      </div>
     </section>
   </main>
 

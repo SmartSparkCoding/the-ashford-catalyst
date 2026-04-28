@@ -12,7 +12,6 @@ const dialogSummary = document.getElementById("dialogSummary");
 const dialogDate = document.getElementById("dialogDate");
 const dialogArticles = document.getElementById("dialogArticles");
 const dialogDownload = document.getElementById("dialogDownload");
-const editionForm = document.getElementById("editionForm");
 
 function formatDate(dateText) {
   if (!dateText) {
@@ -121,29 +120,6 @@ dialog.addEventListener("click", (event) => {
   if (!isInDialog) {
     dialog.close();
   }
-});
-
-editionForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const formData = new FormData(editionForm);
-  const articles = String(formData.get("articles") || "")
-    .split(/\r?\n/)
-    .map((article) => article.trim())
-    .filter(Boolean);
-
-  const edition = window.registerCatalystEdition({
-    number: formData.get("number"),
-    information: formData.get("information"),
-    date: formData.get("date"),
-    file: formData.get("file"),
-    articles
-  });
-
-  editions = Array.isArray(window.CATALYST_EDITIONS) ? [...window.CATALYST_EDITIONS] : [edition];
-  editionForm.reset();
-  editionSearch.value = "";
-  renderEditions(editions);
-  openEdition(edition);
 });
 
 renderEditions(editions);
