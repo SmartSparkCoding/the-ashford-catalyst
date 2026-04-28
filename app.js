@@ -1,5 +1,7 @@
 let editions = Array.isArray(window.CATALYST_EDITIONS) ? [...window.CATALYST_EDITIONS] : [];
+let members = Array.isArray(window.CATALYST_MEMBERS) ? [...window.CATALYST_MEMBERS] : [];
 const editionGrid = document.getElementById("editionGrid");
+const teamGrid = document.getElementById("teamGrid");
 const editionTemplate = document.getElementById("editionTemplate");
 const editionSearch = document.getElementById("editionSearch");
 const searchButton = document.getElementById("searchButton");
@@ -12,6 +14,62 @@ const dialogSummary = document.getElementById("dialogSummary");
 const dialogDate = document.getElementById("dialogDate");
 const dialogArticles = document.getElementById("dialogArticles");
 const dialogDownload = document.getElementById("dialogDownload");
+
+function compareMemberPriority(a, b) {
+  const aRoleLead = Number(a.roleLead);
+  const bRoleLead = Number(b.roleLead);
+  const safeA = Number.isFinite(aRoleLead) ? aRoleLead : 99;
+  const safeB = Number.isFinite(bRoleLead) ? bRoleLead : 99;
+
+  if (safeA !== safeB) {
+    return safeA - safeB;
+  }
+
+  return String(a.name || "").localeCompare(String(b.name || ""));
+}
+
+function renderMembers() {
+  if (!teamGrid) {
+    return;
+  }
+
+  teamGrid.innerHTML = "";
+
+  const sortedMembers = [...members].sort(compareMemberPriority);
+
+  if (!sortedMembers.length) {
+    const emptyState = document.createElement("div");
+    emptyState.className = "team-card";
+    emptyState.textContent = "No members added yet.";
+    teamGrid.appendChild(emptyState);
+    return;
+  }
+
+  sortedMembers.forEach((member) => {
+    const roleLead = Number(member.roleLead);
+    const priority = Number.isFinite(roleLead) ? roleLead : 99;
+
+    const card = document.createElement("article");
+    card.className = "team-card";
+
+    if (priority === 1) {
+      card.classList.add("lead-card");
+    }
+
+    const title = document.createElement("h3");
+    title.textContent = member.name;
+
+    const role = document.createElement("p");
+    role.className = "member-role";
+    role.textContent = `${member.role || "Editor"} • Priority ${priority}`;
+
+    const description = document.createElement("p");
+    description.textContent = member.description || "No description yet.";
+
+    card.append(title, role, description);
+    teamGrid.appendChild(card);
+  });
+}
 
 function formatDate(dateText) {
   if (!dateText) {
@@ -122,4 +180,5 @@ dialog.addEventListener("click", (event) => {
   }
 });
 
+renderMembers();
 renderEditions(editions);

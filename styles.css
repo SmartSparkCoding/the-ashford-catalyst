@@ -224,6 +224,13 @@ a {
   font-size: clamp(1.5rem, 3vw, 2.2rem);
 }
 
+.panel-number {
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  line-height: 0.95;
+  color: var(--accent-strong);
+  margin-right: 8px;
+}
+
 .section {
   padding: 28px 0 22px;
 }
@@ -252,6 +259,18 @@ a {
 .edition-card h3,
 .form-card h3 {
   font-size: 1.25rem;
+}
+
+.member-role {
+  margin: 8px 0 10px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: rgba(18, 18, 18, 0.9);
+}
+
+.lead-card {
+  border-color: rgba(223, 191, 0, 0.55);
+  background: linear-gradient(180deg, rgba(255, 239, 166, 0.28), rgba(255, 255, 255, 0.9));
 }
 
 .archive-toolbar {
@@ -386,6 +405,14 @@ button {
 
 .floating {
   animation: float 6s ease-in-out infinite;
+}
+
+.hero-panels .panel-card:nth-child(2) {
+  animation-delay: 0.35s;
+}
+
+.hero-panels .panel-card:nth-child(3) {
+  animation-delay: 0.7s;
 }
 
 .reveal {
