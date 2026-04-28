@@ -1,26 +1,19 @@
 window.CATALYST_EDITIONS = [
   {
     number: "1",
-    title: "Launch Edition",
-    information: "The first issue introduces The Ashford Catalyst and the ideas that started it.",
-    date: "2026-04-28",
+    title: "Issue 1: The Ashford Catalyst Launches",
+    information: "The first issue introduces Charles Darwin, and many scientific pioneers",
+    date: "2026-01-15",
     file: "editions/issue-1.pdf",
     articles: [
-      "Why Charles Darwin still matters",
-      "How science shapes the world around us",
-      "Meet the Year 9 editors"
-    ]
-  },
-  {
-    number: "2",
-    title: "Flight and Forces",
-    information: "An issue focused on aviation, physics and the ideas that keep aircraft in the sky.",
-    date: "2026-05-05",
-    file: "editions/issue-2.pdf",
-    articles: [
-      "The science of lift",
-      "Airbus A350-900ULR spotlight",
-      "Physics in everyday motion"
+      "Charles Darwin",
+      "Stephen Hawking",
+      "Electron Microscopes",
+      "Discovery of the Cell",
+      "2025 Physics Nobel Prize",
+      "Under the Modern Scope",
+      "AS Space Experiment",
+      "Ball's Pyramid"
     ]
   }
 ];
