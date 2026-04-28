@@ -61,7 +61,7 @@ function renderMembers() {
 
     const role = document.createElement("p");
     role.className = "member-role";
-    role.textContent = `${member.role || "Editor"} • Priority ${priority}`;
+    role.textContent = member.role || "Editor";
 
     const description = document.createElement("p");
     description.textContent = member.description || "No description yet.";
