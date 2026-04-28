@@ -1,1 +1,40 @@
-/**\n * Global edition data store. Every edition added here will be displayed\n * in the magazine archive. Format: number, title, date, file path, and article list.\n */\nwindow.CATALYST_EDITIONS = [\n  {\n    number: \"1\",\n    title: \"Issue 1: The Ashford Catalyst Launches\",\n    information: \"The first issue introduces Charles Darwin, and many scientific pioneers\",\n    date: \"2026-01-15\",\n    file: \"editions/issue-1.pdf\",\n    articles: [\n      \"Charles Darwin\",\n      \"Stephen Hawking\",\n      \"Electron Microscopes\",\n      \"Discovery of the Cell\",\n      \"2025 Physics Nobel Prize\",\n      \"Under the Modern Scope\",\n      \"AS Space Experiment\",\n      \"Ball's Pyramid\"\n    ]\n  }\n];\n\n/**\n * Register a new edition to the magazine archive.\n * Validates required fields, normalizes data, and adds to the front of the list.\n * \n * Usage:\n *   registerCatalystEdition({\n *     number: \"2\",\n *     title: \"Issue 2: Name\",\n *     information: \"Description\",\n *     date: \"2026-02-01\",\n *     file: \"editions/issue-2.pdf\",\n *     articles: [\"Article 1\", \"Article 2\"]\n *   })\n */\nwindow.registerCatalystEdition = function registerCatalystEdition(edition) {\n  // Validate required fields\n  if (!edition || !edition.number || !edition.file) {\n    throw new Error(\"Edition number and file are required.\");\n  }\n\n  // Normalize and clean up all fields (trim whitespace, handle missing values)\n  const normalized = {\n    number: String(edition.number).trim(),\n    title: edition.title ? String(edition.title).trim() : `Edition ${edition.number}`,\n    information: String(edition.information || edition.summary || \"\").trim(),\n    date: String(edition.date || \"\").trim(),\n    file: String(edition.file).trim(),\n    // Ensure articles is always an array, filter out empty strings\n    articles: Array.isArray(edition.articles)\n      ? edition.articles.map((article) => String(article).trim()).filter(Boolean)\n      : []\n  };\n\n  // Initialize the editions array if it doesn't exist, then add the new edition to the front\n  // (newest editions appear first in the list)\n  window.CATALYST_EDITIONS = window.CATALYST_EDITIONS || [];\n  window.CATALYST_EDITIONS.unshift(normalized);\n  return normalized;\n};
+window.CATALYST_EDITIONS = [
+  {
+    number: "1",
+    title: "Issue 1: The Ashford Catalyst Launches",
+    information: "The first issue introduces Charles Darwin, and many scientific pioneers",
+    date: "2026-01-15",
+    file: "editions/issue-1.pdf",
+    articles: [
+      "Charles Darwin",
+      "Stephen Hawking",
+      "Electron Microscopes",
+      "Discovery of the Cell",
+      "2025 Physics Nobel Prize",
+      "Under the Modern Scope",
+      "AS Space Experiment",
+      "Ball's Pyramid"
+    ]
+  }
+];
+
+window.registerCatalystEdition = function registerCatalystEdition(edition) {
+  if (!edition || !edition.number || !edition.file) {
+    throw new Error("Edition number and file are required.");
+  }
+
+  const normalized = {
+    number: String(edition.number).trim(),
+    title: edition.title ? String(edition.title).trim() : `Edition ${edition.number}`,
+    information: String(edition.information || edition.summary || "").trim(),
+    date: String(edition.date || "").trim(),
+    file: String(edition.file).trim(),
+    articles: Array.isArray(edition.articles)
+      ? edition.articles.map((article) => String(article).trim()).filter(Boolean)
+      : []
+  };
+
+  window.CATALYST_EDITIONS = window.CATALYST_EDITIONS || [];
+  window.CATALYST_EDITIONS.unshift(normalized);
+  return normalized;
+};
