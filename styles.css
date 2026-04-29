@@ -70,7 +70,7 @@ a {
 }
 
 .brand-logo {
-  width: clamp(48px, 6vw, 72px);
+  width: clamp(80px, 10vw, 120px);
   height: auto;
   object-fit: contain;
   flex: none;
@@ -193,9 +193,9 @@ a {
 .name-glow-3 {
   color: var(--ink);
   text-shadow:
-    0 0 2px color-mix(in srgb, var(--name-glow) 22%, transparent),
-    0 0 8px color-mix(in srgb, var(--name-glow) 14%, transparent),
-    0 0 14px color-mix(in srgb, var(--name-glow) 8%, transparent);
+    0 0 2.9px color-mix(in srgb, var(--name-glow) 22%, transparent),
+    0 0 11.5px color-mix(in srgb, var(--name-glow) 14%, transparent),
+    0 0 20.2px color-mix(in srgb, var(--name-glow) 8%, transparent);
 }
 
 .lede,
