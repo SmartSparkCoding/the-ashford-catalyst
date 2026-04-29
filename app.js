@@ -50,9 +50,8 @@ function applyTheme(theme) {
 
   if (themeToggle) {
     const isDark = nextTheme === "dark";
-    themeToggle.setAttribute("aria-pressed", String(isDark));
+    themeToggle.checked = isDark;
     themeToggle.setAttribute("aria-label", isDark ? "Disable dark mode" : "Enable dark mode");
-    themeToggle.textContent = isDark ? "☀" : "◐";
   }
 
   try {
@@ -82,9 +81,8 @@ function scheduleScrollYellowUpdate() {
 
 if (themeToggle) {
   applyTheme(getPreferredTheme());
-  themeToggle.addEventListener("click", () => {
-    const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
-    applyTheme(currentTheme === "dark" ? "light" : "dark");
+  themeToggle.addEventListener("change", () => {
+    applyTheme(themeToggle.checked ? "dark" : "light");
   });
 }
 
