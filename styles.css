@@ -313,6 +313,16 @@ a {
   padding: 22px;
 }
 
+.team-card {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.team-card:hover,
+.team-card:focus-within {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 28px 56px rgba(18, 18, 18, 0.18);
+}
+
 .team-card h3,
 .edition-card h3,
 .form-card h3 {
