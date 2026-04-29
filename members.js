@@ -6,19 +6,19 @@ window.CATALYST_MEMBERS = [
     description: "Year 9 at [HIDDEN] School, a Computer Science, Maths and Physics enthusiast, Academic Scholar and swimmer. He helped create the idea during a Biology project on Charles Darwin."
   },
   {
-    name: "William Rees",
+    name: "William [HIDDEN]",
     role: "Editor",
     roleLead: 1,
     description: "Year 9 at [HIDDEN] School, Academic Scholar, Drama Scholar and Sport Scholar. He enjoys Biology, Geography and swimming, and helped shape the magazine with Jacob."
   },
   {
-    name: "Zachary Worden",
+    name: "Zachary [HIDDEN]",
     role: "Editor",
     roleLead: 2,
     description: "Academic, Music and Drama scholar, air cadet and EDI Ambassador. He is passionate about aviation and the Airbus A350-900ULR, alongside Maths and Physics."
   },
   {
-    name: "William Lusted",
+    name: "William [HIDDEN]",
     role: "Editor",
     roleLead: 2,
     description: "A core member of the magazine team, helping bring the publication together as a science-led project with a bold, modern style."

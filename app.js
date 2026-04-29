@@ -1,11 +1,15 @@
+// Load edition data from global window object (populated by editions.js)
+// Using spread operator to avoid mutation issues later
 let editions = Array.isArray(window.CATALYST_EDITIONS) ? [...window.CATALYST_EDITIONS] : [];
-let members = Array.isArray(window.CATALYST_MEMBERS) ? [...window.CATALYST_MEMBERS] : [];
+
+// Cache DOM elements for the edition grid and search functionality
 const editionGrid = document.getElementById("editionGrid");
-const teamGrid = document.getElementById("teamGrid");
 const editionTemplate = document.getElementById("editionTemplate");
 const editionSearch = document.getElementById("editionSearch");
 const searchButton = document.getElementById("searchButton");
 const editionCount = document.getElementById("editionCount");
+
+// Dialog elements for viewing edition details
 const dialog = document.getElementById("editionDialog");
 const closeDialog = document.getElementById("closeDialog");
 const dialogEditionLabel = document.getElementById("dialogEditionLabel");
@@ -15,95 +19,33 @@ const dialogDate = document.getElementById("dialogDate");
 const dialogArticles = document.getElementById("dialogArticles");
 const dialogDownload = document.getElementById("dialogDownload");
 
-function compareMemberPriority(a, b) {
-  const aRoleLead = Number(a.roleLead);
-  const bRoleLead = Number(b.roleLead);
-  const safeA = Number.isFinite(aRoleLead) ? aRoleLead : 99;
-  const safeB = Number.isFinite(bRoleLead) ? bRoleLead : 99;
-
-  if (safeA !== safeB) {
-    return safeA - safeB;
-  }
-
-  return String(a.name || "").localeCompare(String(b.name || ""));
-}
-
-function getMemberTitleFromPriority(priority) {
-  if (priority === 1) {
-    return "Editor";
-  }
-
-  if (priority === 2) {
-    return "Journalist";
-  }
-
-  if (priority === 3) {
-    return "Guest";
-  }
-
-  return "Guest";
-}
-
-function renderMembers() {
-  if (!teamGrid) {
-    return;
-  }
-
-  teamGrid.innerHTML = "";
-
-  const sortedMembers = [...members].sort(compareMemberPriority);
-
-  if (!sortedMembers.length) {
-    const emptyState = document.createElement("div");
-    emptyState.className = "team-card";
-    emptyState.textContent = "No members added yet.";
-    teamGrid.appendChild(emptyState);
-    return;
-  }
-
-  sortedMembers.forEach((member) => {
-    const roleLead = Number(member.roleLead);
-    const priority = Number.isFinite(roleLead) ? roleLead : 99;
-
-    const card = document.createElement("article");
-    card.className = "team-card";
-    card.classList.add(`role-tier-${Math.min(priority, 3)}`);
-
-    if (priority === 1) {
-      card.classList.add("lead-card");
-    }
-
-    const title = document.createElement("h3");
-    title.textContent = member.name;
-
-    const role = document.createElement("p");
-    role.className = "member-role";
-    role.textContent = getMemberTitleFromPriority(priority);
-
-    const description = document.createElement("p");
-    description.textContent = member.description || "No description yet.";
-
-    card.append(title, role, description);
-    teamGrid.appendChild(card);
-  });
-}
-
+/**
+ * Format dates into readable format. If date is invalid or missing,
+ * show a placeholder. This handles various date formats gracefully.
+ */
 function formatDate(dateText) {
   if (!dateText) {
     return "Posting date coming soon";
   }
 
   const date = new Date(dateText);
+  // If date parsing fails, just show the raw text
   return Number.isNaN(date.getTime())
     ? dateText
     : date.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
 }
 
+/**
+ * Search through edition fields for a query string.
+ * Searches across title, articles, issue number, etc.
+ */
 function matchesEdition(edition, query) {
   if (!query) {
     return true;
   }
 
+  // Combine all searchable fields into one string for matching
+  // (a bit hacky but way easier than checking each field separately)
   const haystack = [edition.number, edition.title, edition.information, edition.date, edition.file, ...(edition.articles || [])]
     .join(" ")
     .toLowerCase();
@@ -111,14 +53,21 @@ function matchesEdition(edition, query) {
   return haystack.includes(query.toLowerCase());
 }
 
+/**
+ * Open the edition details modal with the selected edition's info.
+ * Populates all the dialog fields and shows the modal.
+ */
 function openEdition(edition) {
+  if (!edition) return; // Defensive check
+  
   dialogEditionLabel.textContent = `Edition ${edition.number}`;
-  dialogTitle.textContent = edition.title;
-  dialogSummary.textContent = edition.information;
+  dialogTitle.textContent = edition.title || "Untitled Edition";
+  dialogSummary.textContent = edition.information || "No description available";
   dialogDate.textContent = `Posted ${formatDate(edition.date)}`;
-  dialogDownload.href = edition.file;
-  dialogDownload.textContent = "Download";
+  dialogDownload.href = edition.file || "#";
+  dialogDownload.textContent = `Download ${edition.file || "PDF"}`;
 
+  // Clear and rebuild article list
   dialogArticles.innerHTML = "";
   (edition.articles || []).forEach((article) => {
     const item = document.createElement("li");
@@ -126,34 +75,47 @@ function openEdition(edition) {
     dialogArticles.appendChild(item);
   });
 
+  // Only show modal if not already open
   if (!dialog.open) {
     dialog.showModal();
   }
 }
 
+/**
+ * Render edition cards into the grid. Shows empty state if no results.
+ * Staggered animation makes the cards feel less robotic.
+ */
 function renderEditions(list) {
   editionGrid.innerHTML = "";
 
   if (!list.length) {
+    // Show friendly empty state when no results match
     const emptyState = document.createElement("div");
     emptyState.className = "team-card";
     emptyState.textContent = "No editions matched your search.";
     editionGrid.appendChild(emptyState);
-    editionCount.textContent = String(editions.length);
+    editionCount.textContent = String(editions.length); // Still show total count
     return;
   }
 
+  // Update edition count (shows total, not just filtered)
   editionCount.textContent = String(editions.length);
 
   list.forEach((edition, index) => {
     const node = editionTemplate.content.firstElementChild.cloneNode(true);
+    
+    // Stagger the animation a bit so cards don't all pop in at once
+    // (80ms delay felt right, tried 100ms but seemed too slow)
     node.style.animationDelay = `${index * 80}ms`;
+    
+    // Populate card content from edition data
     node.querySelector(".edition-number").textContent = `Edition ${edition.number}`;
     node.querySelector(".edition-date").textContent = formatDate(edition.date);
-    node.querySelector(".edition-title").textContent = edition.title;
-    node.querySelector(".edition-summary").textContent = edition.information;
+    node.querySelector(".edition-title").textContent = edition.title || "Untitled";
+    node.querySelector(".edition-summary").textContent = edition.information || "";
     node.querySelector(".edition-file").textContent = edition.file;
 
+    // Add first 3 articles as preview (list could get long otherwise)
     const articleList = node.querySelector(".mini-articles");
     (edition.articles || []).slice(0, 3).forEach((article) => {
       const item = document.createElement("li");
@@ -161,6 +123,7 @@ function renderEditions(list) {
       articleList.appendChild(item);
     });
 
+    // Make card clickable and keyboard accessible
     node.addEventListener("click", () => openEdition(edition));
     node.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -173,13 +136,18 @@ function renderEditions(list) {
   });
 }
 
+/**
+ * Handle search filtering - triggers on input, button click, or Enter key
+ */
 function applySearch() {
   const query = editionSearch.value.trim();
-  renderEditions(editions.filter((edition) => matchesEdition(edition, query)));
+  const filtered = editions.filter((edition) => matchesEdition(edition, query));
+  renderEditions(filtered);
 }
 
+// Event listeners for search
 searchButton.addEventListener("click", applySearch);
-editionSearch.addEventListener("input", applySearch);
+editionSearch.addEventListener("input", applySearch); // Live filtering
 editionSearch.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -187,15 +155,25 @@ editionSearch.addEventListener("keydown", (event) => {
   }
 });
 
+// Close dialog on button click
 closeDialog.addEventListener("click", () => dialog.close());
+
+// Close dialog when clicking outside the dialog content
+// (click on backdrop). This is a bit verbose but it works reliably.
 dialog.addEventListener("click", (event) => {
   const rect = dialog.getBoundingClientRect();
-  const isInDialog = rect.top <= event.clientY && event.clientY <= rect.top + rect.height && rect.left <= event.clientX && event.clientX <= rect.left + rect.width;
+  
+  // Check if click was outside the dialog box
+  const clickedOutside = 
+    event.clientY < rect.top || 
+    event.clientY > rect.top + rect.height || 
+    event.clientX < rect.left || 
+    event.clientX > rect.left + rect.width;
 
-  if (!isInDialog) {
+  if (clickedOutside) {
     dialog.close();
   }
 });
 
-renderMembers();
+// Initial render on page load
 renderEditions(editions);
