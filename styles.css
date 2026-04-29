@@ -70,15 +70,12 @@ a {
   gap: 14px;
 }
 
-.brand-mark {
+.brand-logo {
   width: 56px;
   height: 56px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  background: var(--accent);
-  box-shadow: var(--shadow);
+  object-fit: contain;
+  flex: none;
+  filter: drop-shadow(0 10px 24px rgba(18, 18, 18, 0.16));
 }
 
 .eyebrow,
