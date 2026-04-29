@@ -65,14 +65,19 @@ a {
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.brand-copy {
+  display: grid;
+  gap: 6px;
 }
 
 .brand-logo {
-  width: 56px;
-  height: 56px;
+  width: clamp(86px, 18vw, 300px);
+  height: clamp(86px, 18vw, 300px);
   object-fit: contain;
   flex: none;
   filter: drop-shadow(0 10px 24px rgba(18, 18, 18, 0.16));
