@@ -66,6 +66,7 @@ body::before {
 }
 
 .backdrop,
+.intro-splash,
 .hero,
 main {
   position: relative;
@@ -86,65 +87,34 @@ a {
   inset: 0;
   pointer-events: none;
   background-image: linear-gradient(color-mix(in srgb, var(--ink) 2.5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink) 2.5%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 80%);
+  opacity: 0.55;
 }
 
-.theme-switch {
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.theme-switch-input {
-  position: absolute;
-  opacity: 0;
+.intro-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
   pointer-events: none;
+  background:
+    radial-gradient(circle at top left, var(--page-overlay-top), transparent 28%),
+    linear-gradient(180deg, var(--page-start) 0%, var(--page-mid) 36%, var(--page-end) 100%);
+  animation: splashFade 2.2s ease forwards;
 }
 
-.theme-switch-track {
-  width: 46px;
-  height: 26px;
-  display: inline-flex;
-  align-items: center;
-  padding: 3px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: none;
-  transition: background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+.intro-splash-logo {
+  width: clamp(320px, 61vw, 754px);
+  height: auto;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 18px rgba(255, 222, 0, 0.25))
+    drop-shadow(0 16px 40px rgba(18, 18, 18, 0.18));
+  animation: splashLogoPulse 2.2s ease forwards;
 }
 
-.theme-switch:hover .theme-switch-track,
-.theme-switch-input:focus-visible + .theme-switch-track {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow);
-}
-
-.theme-switch-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--ink);
-  box-shadow: 0 2px 6px rgba(18, 18, 18, 0.2);
-  transform: translateX(0);
-  transition: transform 180ms ease, background 180ms ease;
-}
-
-.theme-switch-input:checked + .theme-switch-track {
-  background: rgba(24, 24, 24, 0.86);
-}
-
-.theme-switch-input:checked + .theme-switch-track .theme-switch-thumb {
-  transform: translateX(20px);
-  background: #ffd84a;
-}
-
-:root[data-theme="dark"] .theme-switch-track {
-  background: rgba(24, 24, 24, 0.86);
-}
-
-:root[data-theme="dark"] .theme-switch-thumb {
-  background: #ffd84a;
-}
 .hero {
   padding: 24px 0 56px;
 }
@@ -180,6 +150,34 @@ a {
   object-fit: contain;
   flex: none;
   filter: drop-shadow(0 10px 24px rgba(18, 18, 18, 0.16));
+}
+
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: none;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+:root[data-theme="dark"] .theme-toggle {
+  background: rgba(24, 24, 24, 0.86);
 }
 
 .eyebrow,
@@ -680,18 +678,9 @@ button {
     gap: 8px;
   }
 
-  .theme-switch-track {
-    width: 42px;
-    height: 24px;
-  }
-
-  .theme-switch-thumb {
-    width: 16px;
-    height: 16px;
-  }
-
-  .theme-switch-input:checked + .theme-switch-track .theme-switch-thumb {
-    transform: translateX(18px);
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
   }
 }
 
