@@ -212,6 +212,24 @@ function renderTeam(list) {
     node.querySelector(".member-role").textContent = member.role;
     node.querySelector(".member-description").textContent = member.description;
 
+    const memberLink = String(member.link || "").trim();
+    if (memberLink) {
+      node.style.cursor = "pointer";
+      node.setAttribute("tabindex", "0");
+      node.title = `Open ${member.name}'s link`;
+
+      node.addEventListener("click", () => {
+        window.open(memberLink, "_blank", "noopener,noreferrer");
+      });
+
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          window.open(memberLink, "_blank", "noopener,noreferrer");
+        }
+      });
+    }
+
     teamGrid.appendChild(node);
   });
 }
