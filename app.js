@@ -25,9 +25,42 @@ const dialogSummary = document.getElementById("dialogSummary");
 const dialogDate = document.getElementById("dialogDate");
 const dialogArticles = document.getElementById("dialogArticles");
 const dialogDownload = document.getElementById("dialogDownload");
+const themeToggle = document.getElementById("themeToggle");
 const scrollRoot = document.documentElement;
+const themeStorageKey = "ashford-catalyst-theme";
 
 let scrollRafId = 0;
+
+function getPreferredTheme() {
+  try {
+    const storedTheme = window.localStorage.getItem(themeStorageKey);
+    if (storedTheme === "dark" || storedTheme === "light") {
+      return storedTheme;
+    }
+  } catch {
+    // Ignore storage access failures.
+  }
+
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function applyTheme(theme) {
+  const nextTheme = theme === "dark" ? "dark" : "light";
+  document.documentElement.dataset.theme = nextTheme;
+
+  if (themeToggle) {
+    const isDark = nextTheme === "dark";
+    themeToggle.setAttribute("aria-pressed", String(isDark));
+    themeToggle.setAttribute("aria-label", isDark ? "Disable dark mode" : "Enable dark mode");
+    themeToggle.textContent = isDark ? "☀" : "◐";
+  }
+
+  try {
+    window.localStorage.setItem(themeStorageKey, nextTheme);
+  } catch {
+    // Ignore storage access failures.
+  }
+}
 
 function updateScrollYellow() {
   scrollRafId = 0;
@@ -45,6 +78,14 @@ function scheduleScrollYellowUpdate() {
   }
 
   scrollRafId = window.requestAnimationFrame(updateScrollYellow);
+}
+
+if (themeToggle) {
+  applyTheme(getPreferredTheme());
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+    applyTheme(currentTheme === "dark" ? "light" : "dark");
+  });
 }
 
 /**

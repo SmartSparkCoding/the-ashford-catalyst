@@ -497,15 +497,16 @@ button {
 .edition-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 24px;
 }
 
 .edition-card {
   display: grid;
-  gap: 14px;
+  gap: 18px;
   min-height: 100%;
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 180ms ease;
+  padding: 28px;
 }
 
 .edition-card:focus-visible {
@@ -536,8 +537,18 @@ button {
   padding-left: 20px;
 }
 
+.mini-articles {
+  display: grid;
+  gap: 8px;
+}
+
+.edition-summary {
+  line-height: 1.65;
+}
+
 .edition-file {
   font-weight: 700;
+  margin-top: 8px;
 }
 
 .create-grid {
