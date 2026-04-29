@@ -3,6 +3,7 @@
   --bg: #ffffff;
   --accent: #ffde00;
   --accent-strong: #dfbf00;
+  --scroll-yellow: 0;
   --ink: #121212;
   --muted: rgba(18, 18, 18, 0.72);
   --line: rgba(18, 18, 18, 0.1);
@@ -25,6 +26,28 @@ body {
   background:
     radial-gradient(circle at top left, rgba(255, 222, 0, 0.22), transparent 28%),
     linear-gradient(180deg, #fffefa 0%, #ffffff 36%, #fff9cf 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top, rgba(255, 222, 0, calc(0.04 + var(--scroll-yellow) * 0.26)), transparent 52%),
+    linear-gradient(180deg, rgba(255, 222, 0, calc(var(--scroll-yellow) * 0.07)), rgba(255, 202, 58, calc(var(--scroll-yellow) * 0.16)) 100%);
+  opacity: 1;
+  mix-blend-mode: multiply;
+  transition: opacity 120ms linear;
+  z-index: 0;
+}
+
+.backdrop,
+.intro-splash,
+.hero,
+main {
+  position: relative;
+  z-index: 1;
 }
 
 a {

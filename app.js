@@ -25,6 +25,27 @@ const dialogSummary = document.getElementById("dialogSummary");
 const dialogDate = document.getElementById("dialogDate");
 const dialogArticles = document.getElementById("dialogArticles");
 const dialogDownload = document.getElementById("dialogDownload");
+const scrollRoot = document.documentElement;
+
+let scrollRafId = 0;
+
+function updateScrollYellow() {
+  scrollRafId = 0;
+
+  const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+  const yellowStrength = 0.06 + progress * 0.94;
+
+  scrollRoot.style.setProperty("--scroll-yellow", yellowStrength.toFixed(3));
+}
+
+function scheduleScrollYellowUpdate() {
+  if (scrollRafId) {
+    return;
+  }
+
+  scrollRafId = window.requestAnimationFrame(updateScrollYellow);
+}
 
 /**
  * Format dates into readable format. If date is invalid or missing,
@@ -235,5 +256,8 @@ function renderTeam(list) {
 }
 
 // Initial render on page load
+updateScrollYellow();
+window.addEventListener("scroll", scheduleScrollYellowUpdate, { passive: true });
+window.addEventListener("resize", scheduleScrollYellowUpdate);
 renderTeam(members);
 renderEditions(editions);
