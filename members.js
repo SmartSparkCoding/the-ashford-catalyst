@@ -15,21 +15,21 @@ window.CATALYST_MEMBERS = [
   },
   {
     name: "Zachary [HIDDEN]",
-    role: "Editor",
+    role: "Journalist",
     roleLead: 2,
     link: "",
     description: "Academic, Music and Drama scholar, air cadet and EDI Ambassador. He is passionate about aviation and the Airbus A350-900ULR, alongside Maths and Physics."
   },
   {
     name: "William [HIDDEN]",
-    role: "Editor",
+    role: "Journalist",
     roleLead: 2,
     link: "",
     description: "A core member of the magazine team, helping bring the publication together as a science-led project with a bold, modern style."
   },
   { 
     name: "[HIDDEN TEACHER NAME]",
-    role: "Guest",
+    role: "Lead Teacher",
     roleLead: 3,
     link: "",
     description: "A teacher at [HIDDEN] School who has supported the magazine with advice and guidance, and contributed to the first issue."
