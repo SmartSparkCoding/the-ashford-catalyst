@@ -32,7 +32,7 @@ a {
 }
 
 .shell {
-  width: min(1120px, calc(100% - 32px));
+  width: 90vw;
   margin: 0 auto;
 }
 
@@ -118,6 +118,7 @@ a {
 .hero-grid {
   grid-template-columns: 1fr;
   align-items: stretch;
+  justify-items: center;
 }
 
 .hero-panels {
@@ -141,6 +142,11 @@ a {
 
 .hero-copy {
   padding: clamp(28px, 5vw, 56px);
+  width: 100%;
+}
+
+.hero-panels {
+  width: 100%;
 }
 
 .hero-copy h2,
@@ -157,6 +163,39 @@ a {
 .hero-copy h2 {
   font-size: clamp(2.5rem, 6vw, 5.2rem);
   max-width: none;
+}
+
+.name-glow {
+  display: inline-block;
+  padding: 0 0.08em;
+  font-weight: 800;
+  color: var(--ink);
+  text-shadow:
+    0 0 2px color-mix(in srgb, currentColor 28%, transparent),
+    0 0 8px color-mix(in srgb, currentColor 18%, transparent),
+    0 0 16px color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.name-glow-1 {
+  --name-glow: #ffcc33;
+}
+
+.name-glow-2 {
+  --name-glow: #59d7ff;
+}
+
+.name-glow-3 {
+  --name-glow: #ff6fb3;
+}
+
+.name-glow-1,
+.name-glow-2,
+.name-glow-3 {
+  color: var(--ink);
+  text-shadow:
+    0 0 2px color-mix(in srgb, var(--name-glow) 22%, transparent),
+    0 0 8px color-mix(in srgb, var(--name-glow) 14%, transparent),
+    0 0 14px color-mix(in srgb, var(--name-glow) 8%, transparent);
 }
 
 .lede,
