@@ -2,12 +2,19 @@
 // Using spread operator to avoid mutation issues later
 let editions = Array.isArray(window.CATALYST_EDITIONS) ? [...window.CATALYST_EDITIONS] : [];
 
+// Load member data from global window object (populated by members.js)
+let members = Array.isArray(window.CATALYST_MEMBERS) ? [...window.CATALYST_MEMBERS] : [];
+
 // Cache DOM elements for the edition grid and search functionality
 const editionGrid = document.getElementById("editionGrid");
 const editionTemplate = document.getElementById("editionTemplate");
 const editionSearch = document.getElementById("editionSearch");
 const searchButton = document.getElementById("searchButton");
 const editionCount = document.getElementById("editionCount");
+
+// Cache DOM elements for the team grid
+const teamGrid = document.getElementById("teamGrid");
+const teamTemplate = document.getElementById("teamTemplate");
 
 // Dialog elements for viewing edition details
 const dialog = document.getElementById("editionDialog");
@@ -175,5 +182,40 @@ dialog.addEventListener("click", (event) => {
   }
 });
 
+/**
+ * Render team member cards into the grid.
+ * Sorts members by roleLead priority (lower number = higher priority).
+ */
+function renderTeam(list) {
+  teamGrid.innerHTML = "";
+
+  if (!list.length) {
+    teamGrid.textContent = "No team members found.";
+    return;
+  }
+
+  // Sort by roleLead (priority)
+  const sorted = [...list].sort((a, b) => a.roleLead - b.roleLead);
+
+  sorted.forEach((member, index) => {
+    const node = teamTemplate.content.firstElementChild.cloneNode(true);
+    
+    // Stagger animation
+    node.style.animationDelay = `${index * 80}ms`;
+    
+    // Apply role-tier class for colored glows
+    // roleLead 1 = gold glow, 2 = blue glow, 3+ = pink glow
+    node.classList.add(`role-tier-${member.roleLead}`);
+    
+    // Populate card content from member data
+    node.querySelector(".member-name").textContent = member.name;
+    node.querySelector(".member-role").textContent = member.role;
+    node.querySelector(".member-description").textContent = member.description;
+
+    teamGrid.appendChild(node);
+  });
+}
+
 // Initial render on page load
+renderTeam(members);
 renderEditions(editions);

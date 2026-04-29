@@ -1,7 +1,7 @@
 window.CATALYST_MEMBERS = [
   {
     name: "Jacob Navaratne",
-    role: "Lead Editor",
+    role: "Editor",
     roleLead: 1,
     description: "Year 9 at [HIDDEN] School, a Computer Science, Maths and Physics enthusiast, Academic Scholar and swimmer. He helped create the idea during a Biology project on Charles Darwin."
   },
