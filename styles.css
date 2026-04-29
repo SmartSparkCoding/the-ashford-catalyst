@@ -4,11 +4,34 @@
   --accent: #ffde00;
   --accent-strong: #dfbf00;
   --scroll-yellow: 0;
+  --page-start: #fffefa;
+  --page-mid: #ffffff;
+  --page-end: #fff9cf;
+  --page-y-top: rgba(255, 222, 0, 0.22);
+  --page-overlay-top: rgba(255, 222, 0, 0.24);
+  --page-overlay-end: rgba(255, 202, 58, 0.16);
   --ink: #121212;
   --muted: rgba(18, 18, 18, 0.72);
   --line: rgba(18, 18, 18, 0.1);
   --shadow: 0 24px 60px rgba(18, 18, 18, 0.12);
   --radius: 24px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111111;
+  --accent: #ffd84a;
+  --accent-strong: #f2c400;
+  --page-start: #171410;
+  --page-mid: #1a1813;
+  --page-end: #211d13;
+  --page-y-top: rgba(255, 216, 74, 0.14);
+  --page-overlay-top: rgba(255, 216, 74, 0.12);
+  --page-overlay-end: rgba(255, 197, 58, 0.18);
+  --ink: #f4f0e8;
+  --muted: rgba(244, 240, 232, 0.74);
+  --line: rgba(255, 255, 255, 0.1);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
 }
 
 * {
@@ -24,8 +47,8 @@ body {
   font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(circle at top left, rgba(255, 222, 0, 0.22), transparent 28%),
-    linear-gradient(180deg, #fffefa 0%, #ffffff 36%, #fff9cf 100%);
+    radial-gradient(circle at top left, var(--page-y-top), transparent 28%),
+    linear-gradient(180deg, var(--page-start) 0%, var(--page-mid) 36%, var(--page-end) 100%);
 }
 
 body::before {
@@ -63,7 +86,7 @@ a {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: linear-gradient(rgba(18, 18, 18, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(18, 18, 18, 0.025) 1px, transparent 1px);
+  background-image: linear-gradient(color-mix(in srgb, var(--ink) 2.5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink) 2.5%, transparent) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 80%);
   opacity: 0.55;
@@ -77,8 +100,8 @@ a {
   place-items: center;
   pointer-events: none;
   background:
-    radial-gradient(circle at top left, rgba(255, 222, 0, 0.24), transparent 28%),
-    linear-gradient(180deg, #fffefa 0%, #ffffff 36%, #fff9cf 100%);
+    radial-gradient(circle at top left, var(--page-overlay-top), transparent 28%),
+    linear-gradient(180deg, var(--page-start) 0%, var(--page-mid) 36%, var(--page-end) 100%);
   animation: splashFade 2.2s ease forwards;
 }
 
@@ -110,6 +133,12 @@ a {
   padding: 18px 0 26px;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -121,6 +150,34 @@ a {
   object-fit: contain;
   flex: none;
   filter: drop-shadow(0 10px 24px rgba(18, 18, 18, 0.16));
+}
+
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: none;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+:root[data-theme="dark"] .theme-toggle {
+  background: rgba(24, 24, 24, 0.86);
 }
 
 .eyebrow,
@@ -180,7 +237,7 @@ a {
 .form-card,
 .dialog-inner {
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.88);
+  background: color-mix(in srgb, var(--page-mid) 80%, rgba(255, 222, 0, 0.05));
   backdrop-filter: blur(10px);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -298,7 +355,8 @@ a {
   gap: 10px;
   padding: 24px;
   border-radius: calc(var(--radius) - 6px);
-  background: rgba(255, 255, 255, 0.9);
+  background: color-mix(in srgb, var(--page-mid) 76%, rgba(255, 222, 0, 0.05));
+  box-shadow: 0 18px 42px rgba(18, 18, 18, 0.08);
 }
 
 .panel-card h3 {
@@ -396,7 +454,7 @@ a {
   gap: 10px;
   padding: 18px;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.78);
+  background: color-mix(in srgb, var(--page-mid) 78%, transparent);
   border: 1px solid var(--line);
 }
 
@@ -415,10 +473,10 @@ button {
 input,
 textarea {
   width: 100%;
-  border: 1px solid rgba(18, 18, 18, 0.14);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
   border-radius: 16px;
   padding: 14px 16px;
-  background: #fff;
+  background: color-mix(in srgb, var(--page-mid) 94%, transparent);
   color: var(--ink);
 }
 
@@ -429,7 +487,7 @@ button {
 #searchButton,
 .submit,
 .dialog-close {
-  border: 1px solid rgba(18, 18, 18, 0.14);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
   background: var(--accent);
   border-radius: 16px;
   padding: 14px 18px;
@@ -601,6 +659,17 @@ button {
   .intro-splash {
     opacity: 0;
     visibility: hidden;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar-actions {
+    gap: 8px;
+  }
+
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
   }
 }
 
