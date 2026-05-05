@@ -29,6 +29,16 @@ const themeToggle = document.getElementById("themeToggle");
 const scrollRoot = document.documentElement;
 const themeStorageKey = "ashford-catalyst-theme";
 
+// PDF overlay elements (viewer popup)
+const pdfOverlay = document.getElementById("pdfOverlay");
+const closePdf = document.getElementById("closePdf");
+const pdfFrame = document.getElementById("pdfFrame");
+const pdfTitle = document.getElementById("pdfTitle");
+const viewEditionBtn = document.getElementById("viewEdition");
+
+// Track current edition shown in the dialog so the "View edition" button can open it
+let currentOpenEdition = null;
+
 let scrollRafId = 0;
 
 function getPreferredTheme() {
@@ -128,13 +138,16 @@ function matchesEdition(edition, query) {
  */
 function openEdition(edition) {
   if (!edition) return; // Defensive check
+  currentOpenEdition = edition;
   
   dialogEditionLabel.textContent = `Edition ${edition.number}`;
   dialogTitle.textContent = edition.title || "Untitled Edition";
   dialogSummary.textContent = edition.information || "No description available";
   dialogDate.textContent = `Posted ${formatDate(edition.date)}`;
-  dialogDownload.href = edition.file || "#";
-  dialogDownload.textContent = `Download ${edition.file || "PDF"}`;
+  if (dialogDownload) {
+    dialogDownload.href = edition.file || "#";
+    dialogDownload.textContent = `Download ${edition.file || "PDF"}`;
+  }
 
   // Clear and rebuild article list
   dialogArticles.innerHTML = "";
@@ -147,6 +160,43 @@ function openEdition(edition) {
   // Only show modal if not already open
   if (!dialog.open) {
     dialog.showModal();
+  }
+}
+
+/**
+ * Open the PDF overlay and point the iframe at the selected edition file.
+ * Uses the edition.file path so it "automatically works out which edition to show".
+ */
+function openPdf(edition) {
+  if (!edition || !edition.file) return;
+
+  // Build a PDF URL with viewer fragment parameters to hide toolbars in many viewers.
+  // This is a best-effort approach — some browsers' built-in viewers may ignore these flags.
+  function buildPdfUrl(path) {
+    // If URL already has a hash, replace it; otherwise append our params.
+    const params = "toolbar=0&navpanes=0&scrollbar=0";
+    if (path.includes('#')) {
+      return path.replace(/#.*$/, `#${params}`);
+    }
+    return `${path}#${params}`;
+  }
+
+  // Set frame src to the edition file (with best-effort fragment parameters)
+  pdfFrame.src = buildPdfUrl(edition.file);
+
+  // Set centered title in overlay (uses edition title from editions.js)
+  if (pdfTitle) {
+    pdfTitle.textContent = edition.title || `Edition ${edition.number}`;
+  }
+
+  // Update ARIA and show overlay
+  pdfOverlay.classList.add("open");
+  pdfOverlay.setAttribute("aria-hidden", "false");
+
+  // Update back button label to 'Back' and focus it for keyboard users
+  if (closePdf) {
+    closePdf.textContent = "Back";
+    closePdf.focus();
   }
 }
 
@@ -182,7 +232,8 @@ function renderEditions(list) {
     node.querySelector(".edition-date").textContent = formatDate(edition.date);
     node.querySelector(".edition-title").textContent = edition.title || "Untitled";
     node.querySelector(".edition-summary").textContent = edition.information || "";
-    node.querySelector(".edition-file").textContent = edition.file;
+    // Intentionally omit showing the raw file path on the card UI
+    node.querySelector(".edition-file").textContent = "";
 
     // Add first 3 articles as preview (list could get long otherwise)
     const articleList = node.querySelector(".mini-articles");
@@ -192,7 +243,7 @@ function renderEditions(list) {
       articleList.appendChild(item);
     });
 
-    // Make card clickable and keyboard accessible
+    // Make card clickable and keyboard accessible — open edition details modal
     node.addEventListener("click", () => openEdition(edition));
     node.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -241,6 +292,46 @@ dialog.addEventListener("click", (event) => {
 
   if (clickedOutside) {
     dialog.close();
+  }
+});
+
+// Close PDF overlay handlers
+if (closePdf) {
+  closePdf.addEventListener("click", () => {
+    pdfOverlay.classList.remove("open");
+    pdfFrame.src = "";
+    pdfOverlay.setAttribute("aria-hidden", "true");
+    if (pdfTitle) pdfTitle.textContent = "";
+  });
+}
+
+// 'View edition' button in dialog should open the PDF overlay for the current edition
+if (viewEditionBtn) {
+  viewEditionBtn.addEventListener("click", () => {
+    // Close the info dialog first
+    if (dialog && dialog.open) {
+      dialog.close();
+    }
+
+    if (currentOpenEdition) {
+      openPdf(currentOpenEdition);
+    }
+  });
+}
+
+// Clicking backdrop closes overlay
+if (pdfOverlay) {
+  pdfOverlay.addEventListener("click", (e) => {
+    if (e.target === pdfOverlay && closePdf) {
+      closePdf.click();
+    }
+  });
+}
+
+// Escape closes the PDF overlay (if open)
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && pdfOverlay && pdfOverlay.classList.contains("open") && closePdf) {
+    closePdf.click();
   }
 });
 

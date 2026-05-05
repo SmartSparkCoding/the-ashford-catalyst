@@ -31,7 +31,7 @@
           <span class="name-glow name-glow-1">Jacob Navaratne</span>,
           <span class="name-glow name-glow-2">William Rees</span>,
           <span class="name-glow name-glow-3">Zachary Worden</span>
-          and <span class="name-glow name-glow-2">William Lusted</span>.
+          and <span class="name-glow name-glow-4">William Lusted</span>.
         </h2>
         <p class="lede">The Ashford Catalyst is a science magazine built from curiosity, teamwork and the things the Year 9 editors love most: Biology, Physics, Maths, Geography, computing, drama, music and aviation.</p>
         <div class="hero-actions">
@@ -100,13 +100,17 @@
       <p class="dialog-meta" id="dialogDate"></p>
       <h4>Articles inside this edition</h4>
       <ul id="dialogArticles" class="article-list"></ul>
-      <a id="dialogDownload" class="button primary" href="#" target="_blank" rel="noreferrer">Download edition</a>
+      <button id="viewEdition" class="button primary" type="button">View edition</button>
     </div>
   </dialog>
 
   <div id="pdfOverlay" class="pdf-overlay" aria-hidden="true">
     <div class="pdf-overlay-inner">
-      <button id="closePdf" class="overlay-close" type="button">Close</button>
+      <div class="overlay-header">
+        <div></div>
+        <h3 id="pdfTitle" class="overlay-title"></h3>
+        <button id="closePdf" class="overlay-close" type="button">Back</button>
+      </div>
       <iframe id="pdfFrame" class="pdf-frame" src="" frameborder="0" allowfullscreen title="Edition preview"></iframe>
     </div>
   </div>
