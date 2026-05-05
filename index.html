@@ -104,6 +104,13 @@
     </div>
   </dialog>
 
+  <div id="pdfOverlay" class="pdf-overlay" aria-hidden="true">
+    <div class="pdf-overlay-inner">
+      <button id="closePdf" class="overlay-close" type="button">Close</button>
+      <iframe id="pdfFrame" class="pdf-frame" src="" frameborder="0" allowfullscreen title="Edition preview"></iframe>
+    </div>
+  </div>
+
   <template id="editionTemplate">
     <article class="edition-card" tabindex="0">
       <div class="edition-top">
