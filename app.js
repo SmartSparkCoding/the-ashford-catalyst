@@ -41,6 +41,12 @@ let currentOpenEdition = null;
 
 let scrollRafId = 0;
 
+window.addEventListener("load", () => {
+  window.requestAnimationFrame(() => {
+    document.body.classList.add("is-loaded");
+  });
+});
+
 function getPreferredTheme() {
   try {
     const storedTheme = window.localStorage.getItem(themeStorageKey);

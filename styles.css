@@ -102,7 +102,8 @@ a {
   background:
     radial-gradient(circle at top left, var(--page-overlay-top), transparent 28%),
     linear-gradient(180deg, var(--page-start) 0%, var(--page-mid) 36%, var(--page-end) 100%);
-  animation: splashFade 2.2s ease forwards;
+  opacity: 1;
+  visibility: visible;
 }
 
 .intro-splash-logo {
@@ -112,6 +113,13 @@ a {
   filter:
     drop-shadow(0 0 18px rgba(255, 222, 0, 0.25))
     drop-shadow(0 16px 40px rgba(18, 18, 18, 0.18));
+}
+
+body.is-loaded .intro-splash {
+  animation: splashFade 2.2s ease forwards;
+}
+
+body.is-loaded .intro-splash-logo {
   animation: splashLogoPulse 2.2s ease forwards;
 }
 
