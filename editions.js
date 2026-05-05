@@ -15,6 +15,16 @@ window.CATALYST_EDITIONS = [
       "AS Space Experiment",
       "Ball's Pyramid"
     ]
+  },
+  {
+    number: "2",
+    title: "UNRELEASED - Issue 2",
+    information: "Unreleased edition with exciting upcoming articles!",
+    date: "2026-00-00",
+    file: "editions/issue-2.pdf",
+    articles: [
+      "Upcoming Articles!!"
+    ]
   }
 ];
 
